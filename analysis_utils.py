@@ -6,6 +6,7 @@ from scipy.stats import f_oneway, ttest_ind
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LinearRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from matplotlib import pyplot as plt
 
 def get_trialwise_mean(dataset, labels):
     # calculate mean across trials for each stimulus location for all neurons
