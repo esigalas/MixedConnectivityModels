@@ -1,2 +1,2 @@
-# MixedArchitectureModels
-Code for the mixed architecture models 
+# MixedConnectivityModels
+Code for the mixed connectivity models 
