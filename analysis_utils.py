@@ -1,6 +1,6 @@
 from collections import defaultdict 
 import numpy as np
-from itertools import combinations
+from itertools import combinations,product
 from scipy import stats
 from scipy.stats import f_oneway, ttest_ind
 from sklearn.decomposition import PCA
@@ -33,18 +33,24 @@ def get_group_pci(group):
 
         yield pair_pci[0], pair_pci[1]
 
-def get_group_pci_product(group1,group2):
+def get_group_pci_product(group1, group2, names=None):
     # expect a numpy array as input with shape (number of neurons in the group X neural activities)
     # will calculate the Pearson’s correlation-coefficient for each pair of neural activities between the two groups
     product_list = list(product(group1,group2))
-    
-    for neuron1, neuron2 in product_list:
-        pair_pci = stats.pearsonr(neuron1, neuron2)
+    if names is not None:
+        name_list = list(product(names[0], names[1]))
+        print(len(name_list))
+        print(len(product_list))
+
+    for ii, neuron in enumerate(product_list):
+        pair_pci = stats.pearsonr(neuron[0], neuron[1])
 #         if np.isnan(pair_pci[0]):
 #             print(neuron_pair[0])
 #             print(neuron_pair[1])
-        yield pair_pci[0], pair_pci[1]
-
+        if names is None:
+            yield pair_pci[0], pair_pci[1]
+        else:
+            yield pair_pci[0], pair_pci[1], name_list[ii]
 def find_selective_locations(neuron1, neuron2, selective_dict):
     for loc in selective_dict.keys():
         if neuron1 in selective_dict[loc] and neuron2 in selective_dict[loc]:
